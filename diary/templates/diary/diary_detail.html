@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ entry.title }}
+{% endblock %}
+{% block content %}
+    <h2>{{ entry.title }}</h2>
+    <p>{{ entry.content }}</p>
+    <p>Created: {{ entry.created_at }}</p>
+     <a href="{% url 'diary:diary_edit' entry.id %}" class="btn btn-primary">Редактировать</a>
+    <a href="{% url 'diary:diary_delete' entry.id %}" class="btn btn-danger">Удалить</a>
+{% endblock %}
