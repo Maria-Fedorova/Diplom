@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from diary.models import Diary
+
+
+class DiaryListView(ListView):
+    model = Diary
+
