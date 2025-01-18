@@ -1,4 +1,4 @@
-{% extends 'catalog/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
@@ -12,7 +12,7 @@
                             {{ form.as_p }}
                         </div>
                         <button type="submit" class="btn btn-primary"> Изменить </button>
-                        <a href="{% url 'catalog:product_list' %}" class="btn btn-secondary"> Вернуться </a>
+                        <a href="{% url 'diary:diary_list' %}" class="btn btn-secondary"> Вернуться </a>
                     </div>
                 </div>
         </div>

@@ -91,7 +91,7 @@ class ProfileView(UpdateView, StyleFormMixin):
     model = User
     form_class = UserProfileForm
     template_name = "users/user_profile.html"
-    success_url = reverse_lazy("users:profile")
+    success_url = reverse_lazy("users:login")
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -104,7 +104,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     model = User
     form_class = UserProfileForm
-    success_url = reverse_lazy("users:profile")
+    success_url = reverse_lazy("users:login")
 
     def get_object(self, queryset=None):
         return self.request.user

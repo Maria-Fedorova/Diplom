@@ -10,6 +10,9 @@ class DiaryListView(ListView):
     model = Diary
     form_class = DiaryForm
 
+    def get_queryset(self):
+        return Diary.objects.filter(author=self.request.user)
+
 
 class DiaryCreateView(CreateView):
     model = Diary
