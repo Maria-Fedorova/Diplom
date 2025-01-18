@@ -7,6 +7,6 @@ from config import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    #path("user/", include("users.urls", namespace="users")),
+    path("user/", include("users.urls", namespace="users")),
     path("", include("diary.urls", namespace="diary")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
