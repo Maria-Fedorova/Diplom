@@ -1,11 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}
-    {{ entry.title }}
+{{ diary.title }}
 {% endblock %}
 {% block content %}
-    <h2>{{ entry.title }}</h2>
-    <p>{{ entry.content }}</p>
-    <p>Created: {{ entry.created_at }}</p>
-     <a href="{% url 'diary:diary_edit' entry.id %}" class="btn btn-primary">Редактировать</a>
-    <a href="{% url 'diary:diary_delete' entry.id %}" class="btn btn-danger">Удалить</a>
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-body">
+            <h2 class="card-title mb-4 .text-muted">{{ diary.title }}</h2>
+            <p class="card-text">{{ diary.content|linebreaks }}</p>
+            <div class="entry-info text-muted mt-4">
+                <p><strong>Дата создания:</strong> {{ diary.create_date }}</p>
+                <p><strong>Дата обновления:</strong> {{ diary.updated_date }}</p>
+            </div>
+            <div class="detail-buttons d-flex gap-3 mt-4">
+                <a href="{% url 'diary:diary_update' diary.id %}" class="btn btn-primary">
+                    <i class="bi bi-pencil-square me-1"></i> Редактировать
+                </a>
+                <a href="{% url 'diary:diary_delete' diary.id %}" class="btn btn-danger">
+                    <i class="bi bi-trash me-1"></i> Удалить
+                </a>
+                <a href="/" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

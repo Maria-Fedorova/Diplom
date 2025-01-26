@@ -15,7 +15,7 @@ class User(AbstractUser):
     """
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
-    phone = models.CharField(max_length=35, verbose_name="Телефон", blank=True, null=True,
+    phone = models.CharField(unique=True, max_length=35, verbose_name="Телефон", blank=True, null=True,
                              help_text="Введите номер телефона")
     country = models.CharField(max_length=35, verbose_name="Страна", blank=True, null=True,
                                help_text="Введите название страны")

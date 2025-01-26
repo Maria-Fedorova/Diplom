@@ -3,19 +3,40 @@
 {% block title %}My Diary {% endblock %}
 
 {% block content %}
-    <h2>Мой дневник</h2>
-        <ul class="list-group">
-            {% for diary in object_list %}
-                <li class="list-group-item">
-                    <a href="{% url 'diary:diary_detail' diary.id %}">{{ diary.title }}</a>
-                     - {{ diary.created_at }}
-                     <br/>
-                   <div style="margin-top: 5px;">
-                       <a href="{% url 'diary:diary_update' diary.id %}" class="btn btn-sm btn-primary">Edit</a>
-                       <a href="{% url 'diary:diary_delete' diary.id %}" class="btn btn-sm btn-danger">Delete</a>
-                     </div>
-                </li>
-            {% endfor %}
-        </ul>
-     <a href="{% url 'diary:diary_create' %}" class="btn btn-primary mt-3">Создать новую запись</a>
+{% if user.is_authenticated %}
+<div class="content-header justify-content-between">
+    <a href="{% url 'diary:diary_create' %}" class="add-button">Добавить новую запись</a>
+    <form class="d-flex" method="get" action="{% url 'diary:diary_list' %}">
+        <input type="text" class="search-input" type="search" name="q" placeholder="Поиск по заголовку"
+               aria-label="Search">
+    </form>
+</div>
+<h2>Записи</h2>
+<div class="entries-container">
+    <div class="row mb-4 d-flex align-items-stretch">
+    {% for diary in object_list %}
+    <div class="col-md-4 d-flex">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative flex-fill">
+            <div class="col p-3 d-flex flex-column position-static">
+                <h3 class="mb-0">{{ diary.title }}</h3>
+                <p class="card-text mb-auto p-1">{{ diary.content|slice:150 }}.</p>
+                <div class="mb-1 text-body-secondary">Дата создания: {{ diary.create_date }}</div>
+                <div class="mb-1 text-body-secondary">Дата обновления: {{ diary.updated_date }}</div>
+                <a href="{% url 'diary:diary_detail' diary.id %}"
+                   class="icon-link gap-1 icon-link-hover stretched-link">
+                    Читать далее
+                    <svg class="bi">
+                        <use xlink:href="#chevron-right"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</div>
+{% else %}
+<h2>Для просмотра и создания записей вам необходимо авторизоваться.</h2>
+{% endif %}
 {% endblock %}

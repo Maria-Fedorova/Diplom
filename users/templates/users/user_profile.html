@@ -1,22 +1,36 @@
 {% extends 'base.html' %}
+{% load my_tags %}
+{% block title %}
+Профиль пользователя
+{% endblock %}
 {% block content %}
-<div class="album py-5 bg-body-tertiary">
-    <div class="container">
-        <form method="post" enctype="multipart/form-data">
-        <div class="row">
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-body text-center">
 
-                <div class="col-6">
-                    <div class="card">
-                        <div class="card-body">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                        </div>
-                        <button type="submit" class="btn btn-primary"> Изменить </button>
-                        <a href="{% url 'diary:diary_list' %}" class="btn btn-secondary"> Вернуться </a>
-                    </div>
-                </div>
+            <div class="avatar-container mb-4">
+                <img src="{{ user.avatar | media_filter }}" alt="Avatar" class="avatar-medium">
+            </div>
+
+            <!-- Информация о пользователе -->
+            <h2 class="mb-4 text-primary">Профиль пользователя</h2>
+            <div class="mb-3">
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Телефон:</strong> {{ user.phone }}</p>
+                <p><strong>Страна:</strong> {{ user.country }}</p>
+            </div>
+
+            <!-- Кнопки действий -->
+            <div class="d-flex gap-3 justify-content-center mt-4">
+                <a href="{% url 'users:update' %}" class="btn btn-primary">
+                    <i class="bi bi-pencil-square me-1"></i> Изменить
+                </a>
+                <a href="{% url 'users:reset_password' %}" class="btn btn-warning">
+                    <i class="bi bi-lock me-1"></i> Сменить пароль
+                </a>
+            </div>
         </div>
-    </form>
     </div>
 </div>
 {% endblock %}
+
