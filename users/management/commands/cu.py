@@ -1,6 +1,5 @@
 from django.core.management import BaseCommand
 
-from diary.models import Diary
 from users.models import User
 
 
@@ -12,4 +11,3 @@ class Command(BaseCommand):
         user.is_staff = False
         user.is_superuser = False
         user.save()
-
