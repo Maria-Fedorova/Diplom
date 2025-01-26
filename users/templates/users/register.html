@@ -1,12 +1,27 @@
 {% extends 'base.html' %}
+{% load my_tags %}
 {% block title %}
-    Register
+{{ title }}
 {% endblock %}
+
 {% block content %}
-    <h2>Register</h2>
-     <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Register</button>
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-body">
+            <h2 class="mb-4 text-primary">{{ title }}</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="mt-4 d-flex gap-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-1"></i> Регистрация
+                    </button>
+                    <a href="{% url 'diary:diary_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> Назад
+                    </a>
+                </div>
             </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

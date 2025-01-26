@@ -1,16 +1,15 @@
 import secrets
 import string
-from random import random
+import random
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
-from diary.forms import StyleFormMixin
 from users.forms import UserRegisterForm, ResetPasswordForm, UserProfileForm
 from users.models import User
 
@@ -21,6 +20,7 @@ class UserCreateView(CreateView):
     """
     model = User
     form_class = UserRegisterForm
+    template_name = "users/register.html"
     success_url = reverse_lazy("users:login")
 
     def form_valid(self, form):
@@ -33,7 +33,7 @@ class UserCreateView(CreateView):
         user.token = token
         user.save()
         host = self.request.get_host()
-        url = f'http://{host}/users/email-confirm/{token}/'
+        url = f'http://{host}/user/email-confirm/{token}/'
         send_mail(
             subject="Подтверждение почты",
             message=f'Перейдите по ссылке для подтверждения почты {url}',
@@ -53,13 +53,13 @@ def email_verification(request, token):
     return redirect(reverse("users:login"))
 
 
-class UserResetPasswordView(PasswordResetView, StyleFormMixin):
+class UserResetPasswordView(PasswordResetView):
     """
     Сброс пароля.
     """
     form_class = ResetPasswordForm
     template_name = "users/reset_password.html"
-    success_url = reverse_lazy("users:login")
+    success_url = reverse_lazy("user:login")
 
     def form_valid(self, form):
         """
@@ -80,18 +80,18 @@ class UserResetPasswordView(PasswordResetView, StyleFormMixin):
                     recipient_list=[user.email]
                 )
             return redirect(reverse("users:login"))
-        except:
+        except User.DoesNotExist:
             return redirect(reverse("users:register"))
 
 
-class ProfileView(UpdateView, StyleFormMixin):
+class ProfileView(UpdateView):
     """
     Просмотр профиля
     """
     model = User
     form_class = UserProfileForm
     template_name = "users/user_profile.html"
-    success_url = reverse_lazy("users:login")
+    success_url = reverse_lazy("diary:diary_list")
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -104,7 +104,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     model = User
     form_class = UserProfileForm
-    success_url = reverse_lazy("users:login")
+    success_url = reverse_lazy("diary:diary_list")
 
     def get_object(self, queryset=None):
         return self.request.user
