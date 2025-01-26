@@ -1,9 +1,13 @@
-
-from django.urls import path, include
-
+from django.urls import path
 
 from diary.apps import DiaryConfig
-from diary.views import DiaryListView, DiaryCreateView, DiaryUpdateView, DiaryDetailView, DiaryDeleteView
+from diary.views import (
+    DiaryCreateView,
+    DiaryDeleteView,
+    DiaryDetailView,
+    DiaryListView,
+    DiaryUpdateView,
+)
 
 app_name = DiaryConfig.name
 

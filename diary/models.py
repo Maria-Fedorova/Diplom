@@ -18,11 +18,13 @@ class Diary(models.Model):
 
     title = models.CharField(max_length=50, verbose_name="Заголовок")
     content = models.TextField(verbose_name="Содержание")
-    create_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания записи")
+    create_date = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания записи"
+    )
     updated_date = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(
-       User, verbose_name="Владелец", on_delete=models.CASCADE, blank=True, null=True
-   )
+        User, verbose_name="Владелец", on_delete=models.CASCADE, blank=True, null=True
+    )
 
     class Meta:
         verbose_name = "Запись в дневнике"
