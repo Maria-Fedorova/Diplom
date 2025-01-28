@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -21,6 +22,12 @@ class DiaryListView(ListView):
     model = Diary
     form_class = DiaryForm
 
+    def get_object(self, queryset=None):
+        self.object = self.get_object(queryset)
+        if self.request.user == self.object.author:
+            return self.object
+        raise HttpResponseForbidden()
+
     def get_queryset(self):
         queryset = super().get_queryset()
         query = self.request.GET.get("q")
@@ -30,6 +37,7 @@ class DiaryListView(ListView):
                     Q(title__icontains=query) | Q(content__icontains=query)
                 )
                 form = DiaryForm()
+                #Выдаем пользователю только его записи.
             return queryset.filter(author=self.request.user)
         else:
             return Diary.objects.none()

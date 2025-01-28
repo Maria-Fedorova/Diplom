@@ -15,23 +15,25 @@
 <div class="entries-container">
     <div class="row mb-4 d-flex align-items-stretch">
     {% for diary in object_list %}
-    <div class="col-md-4 d-flex">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative flex-fill">
-            <div class="col p-3 d-flex flex-column position-static">
-                <h3 class="mb-0">{{ diary.title }}</h3>
-                <p class="card-text mb-auto p-1">{{ diary.content|slice:150 }}.</p>
-                <div class="mb-1 text-body-secondary">Дата создания: {{ diary.create_date }}</div>
-                <div class="mb-1 text-body-secondary">Дата обновления: {{ diary.updated_date }}</div>
-                <a href="{% url 'diary:diary_detail' diary.id %}"
-                   class="icon-link gap-1 icon-link-hover stretched-link">
-                    Читать далее
-                    <svg class="bi">
-                        <use xlink:href="#chevron-right"/>
-                    </svg>
-                </a>
+        {% if user == diary.author %}
+            <div class="col-md-4 d-flex">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative flex-fill">
+                    <div class="col p-3 d-flex flex-column position-static">
+                        <h3 class="mb-0">{{ diary.title }}</h3>
+                        <p class="card-text mb-auto p-1">{{ diary.content|slice:150 }}.</p>
+                        <div class="mb-1 text-body-secondary">Дата создания: {{ diary.create_date }}</div>
+                        <div class="mb-1 text-body-secondary">Дата обновления: {{ diary.updated_date }}</div>
+                        <a href="{% url 'diary:diary_detail' diary.id %}"
+                           class="icon-link gap-1 icon-link-hover stretched-link">
+                            Читать далее
+                            <svg class="bi">
+                                <use xlink:href="#chevron-right"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        {% endif %}
     {% endfor %}
 </div>
 
